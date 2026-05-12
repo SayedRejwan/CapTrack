@@ -21,8 +21,8 @@
 
   // ── Supabase client (CDN must be loaded in index.html before this script) ──
   let supabase = null;
-  if (ONLINE && typeof supabase !== 'undefined' && supabase.createClient) {
-    supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  if (ONLINE && typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true },
       realtime: { params: { eventsPerSecond: 10 } },
     });
