@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS teams (
   title         TEXT NOT NULL,
   accent        TEXT NOT NULL DEFAULT '#0079BF',
   progress      INT  NOT NULL DEFAULT 0,
-  password      TEXT NOT NULL DEFAULT 'capstone2026',
   drive_link    TEXT,
   created_at    TIMESTAMPTZ DEFAULT now()
 );
@@ -91,8 +90,8 @@ CREATE TABLE IF NOT EXISTS app_settings (
   supervisor_role  TEXT NOT NULL DEFAULT 'Capstone Supervisor',
   supervisor_email TEXT NOT NULL DEFAULT 'shaid.sujon@iut-dhaka.edu',
   supervisor_id    TEXT NOT NULL DEFAULT 'sup1',
-  team_password  TEXT NOT NULL DEFAULT 'capstone2026',
-  drive_link     TEXT DEFAULT 'https://drive.google.com/drive/folders/1a-cYelRQNGNbx0K2I0zfO3asZ72HWAmC?usp=sharing',
+  team_password  TEXT NOT NULL DEFAULT 'CHANGE_ME_AFTER_DEPLOY',
+  drive_link     TEXT DEFAULT '',
   updated_at     TIMESTAMPTZ DEFAULT now()
 );
 
@@ -214,15 +213,16 @@ BEGIN;
 COMMIT;
 
 -- ── Seed app_settings (single row) ──
+-- NOTE: team_password is set via Supabase Auth, not stored here.
+-- Set drive_link to your actual Google Drive folder after deployment.
 INSERT INTO app_settings (id, current_week, total_weeks, midpoint_week,
   supervisor_name, supervisor_role, supervisor_email, supervisor_id,
-  team_password, drive_link)
+  drive_link)
 VALUES (1, 18, 28, 14,
   'Dr. Md. Abu Shaid Sujon',
   'Capstone Supervisor',
   'shaid.sujon@iut-dhaka.edu',
   'sup1',
-  'capstone2026',
-  'https://drive.google.com/drive/folders/1a-cYelRQNGNbx0K2I0zfO3asZ72HWAmC?usp=sharing'
+  ''
 )
 ON CONFLICT (id) DO NOTHING;

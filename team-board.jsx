@@ -24,15 +24,18 @@ function TeamBoard({ team, layout, onLogout, isSupervisorView, onBackToOverview 
   const metrics = teamMetrics(team);
   const contrib = memberContribution(team);
 
+  const sec = window.CAPTRACK_SECURITY;
   function addTask(partial) {
+    const v = sec.validateLength(partial.title, 'taskTitle');
+    if (!v.ok) return; // Silently reject invalid input
     const list = TASKS[team.id];
     list.push({
       id: `${team.id}-t${Date.now()}`,
-      title: partial.title,
+      title: v.value, // sanitized + trimmed
       status: partial.status || 'todo',
       assigneeIdx: partial.assigneeIdx ?? 0,
       week: partial.week ?? CURRENT_WEEK,
-      labels: partial.labels || [],
+      labels: (partial.labels || []).map(l => sec.sanitize(l)),
       commentCount: 0, attachmentCount: 0,
     });
     window.CAPSTONE.save(); refresh();

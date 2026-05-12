@@ -6,16 +6,20 @@
   <title>CapTrack — IPE Capstone Progress Tracker</title>
 
   <!-- Content Security Policy: lock down to known origins only -->
+  <!-- unsafe-eval is required for Babel standalone (JSX transpilation in-browser) -->
+  <!-- If pre-building JSX, remove unsafe-eval and use pre-compiled scripts -->
   <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
+    default-src 'none';
     script-src 'self' 'unsafe-eval' https://unpkg.com https://cdn.jsdelivr.net;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src https://fonts.gstatic.com;
-    connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co wss://*.supabase.in;
+    connect-src https://*.supabase.co https://*.supabase.in wss://*.supabase.co wss://*.supabase.in;
     img-src 'self' data: https:;
     frame-src https://drive.google.com;
     base-uri 'self';
     form-action 'self';
+    object-src 'none';
+    frame-ancestors 'none';
   ">
 
   <!-- HTTPS enforcement for production -->
@@ -67,10 +71,10 @@
 <body>
   <div id="root"></div>
 
-  <!-- React + Babel (existing SRI hashes preserved) -->
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <!-- React production builds (smaller, faster, no console warnings) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 
   <!-- DOMPurify for input sanitization (production hardening) -->
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js" crossorigin="anonymous"></script>
@@ -80,9 +84,12 @@
 
   <!-- Config (edit before deploying) -->
   <script>
-    window.CAPTRACK_SUPABASE_URL = 'https://tmhxkzlnmjcqmykbgacg.supabase.co';
-    window.CAPTRACK_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtaHhremxubWpjcW15a2JnYWNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MjU3ODksImV4cCI6MjA5NDEwMTc4OX0.rqywvyhy2l3ITbWyeYhImmIfwii51AvT4sGoVdBFow4';
+    window.CAPTRACK_SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+    window.CAPTRACK_SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
   </script>
+
+  <!-- Security utilities (input validation, rate limiting, sanitization) -->
+  <script src="security.js?v=2"></script>
 
   <!-- Data (seed definitions — overridden by db.js after load) -->
   <script src="data.js?v=2"></script>

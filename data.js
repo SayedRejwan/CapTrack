@@ -1,12 +1,12 @@
 // Seed data for the Capstone Progress Tracker
 // All 5 IPE teams from the registration document, with simulated weekly progress
 
-// Single shared password for all student teams. Easy to remember, tied to the year.
-const TEAM_PASSWORD = 'capstone2026';
+// Password is fetched from Supabase (app_settings) — not stored in client code.
+// Change it in the Supabase dashboard after seeding.
+const TEAM_PASSWORD = '';
 
-// Shared Google Drive folder where teams upload their files.
-// (Standard /drive/folders/ format — the /drive/project/ URL doesn't open reliably.)
-const DRIVE_LINK = 'https://drive.google.com/drive/folders/1a-cYelRQNGNbx0K2I0zfO3asZ72HWAmC?usp=sharing';
+// Drive link is fetched from Supabase app_settings at runtime — not hardcoded.
+const DRIVE_LINK = '';
 
 const SUPERVISOR = {
   id: 'sup1',
@@ -49,7 +49,7 @@ const TEAMS = [
     id: 'team-01',
     number: '01',
     title: 'Optimization of a Warehouse using Digital Twin with implementation of ML/AI',
-    password: TEAM_PASSWORD,
+    password: '',
     accent: '#0079BF',
     progress: 62,
     members: [
@@ -65,7 +65,7 @@ const TEAMS = [
     id: 'team-02',
     number: '02',
     title: 'Plastic Waste to Fuel Conversion Using Pyrolysis',
-    password: TEAM_PASSWORD,
+    password: '',
     accent: '#D29034',
     progress: 71,
     members: [
@@ -81,7 +81,7 @@ const TEAMS = [
     id: 'team-03',
     number: '03',
     title: 'Design and Fabrication of a Contemporary Ergonomic Workstation',
-    password: TEAM_PASSWORD,
+    password: '',
     accent: '#519839',
     progress: 48,
     members: [
@@ -97,7 +97,7 @@ const TEAMS = [
     id: 'team-04',
     number: '04',
     title: 'Automated Water Quality Monitoring and Purification System',
-    password: TEAM_PASSWORD,
+    password: '',
     accent: '#B04632',
     progress: 55,
     members: [
@@ -113,7 +113,7 @@ const TEAMS = [
     id: 'team-05',
     number: '05',
     title: 'AI Predictive Maintenance CNC Machining for PCB Manufacturing',
-    password: TEAM_PASSWORD,
+    password: '',
     accent: '#89609E',
     progress: 67,
     members: [

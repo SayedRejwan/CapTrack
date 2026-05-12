@@ -55,3 +55,4 @@ Industrial and Production Engineering (IPE)  ·  Islamic University of Technolog
 | 4 | Shah Fattah Faayed | 220012121 | Member | 01971175566 |  |
 | 5 | Md. Zayed Ahmed | 220012103 | Member | 01795029373 |  |
 | 6 | Omeo Al-morsalin  | 220012158 | Member | 01308500180 |  |
+

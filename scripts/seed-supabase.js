@@ -27,7 +27,7 @@ const TEAMS = [
   {
     id: 'team-01', number: '01',
     title: 'Optimization of a Warehouse using Digital Twin with implementation of ML/AI',
-    accent: '#0079BF', progress: 62, password: 'capstone2026',
+    accent: '#0079BF', progress: 62,
     members: [
       { name: 'Hossain Yousha',         sid: '220012148', role: 'Team Lead', mobile: '01735204680' },
       { name: 'Sabab Anzum Ananto',     sid: '220012146', role: 'Member',    mobile: '01776210150' },
@@ -40,12 +40,12 @@ const TEAMS = [
   {
     id: 'team-02', number: '02',
     title: 'Plastic Waste to Fuel Conversion Using Pyrolysis',
-    accent: '#D29034', progress: 71, password: 'capstone2026',
+    accent: '#D29034', progress: 71,
     members: [
       { name: 'Nabilah Ahnaf Noshin',   sid: '220012107', role: 'Team Lead', mobile: '01734176457' },
       { name: 'Jakia Yeasmin Prya',     sid: '220012153', role: 'Member',    mobile: '01628583229' },
       { name: 'Sadat Saif Zaman',       sid: '220012129', role: 'Member',    mobile: '01724904997' },
-      { name: 'Syed Ahnaf Tahmid Haque',sid: '220012155', role: 'Member',    mobile: '01406485875' },
+      { name: 'Syed Ahnaf Tahmid Haque','sid: '220012155', role: 'Member',    mobile: '01406485875' },
       { name: 'Md. Nafis Alam',         sid: '220012111', role: 'Member',    mobile: '01790212170' },
       { name: 'Tasnuva Parvez',         sid: '220012149', role: 'Member',    mobile: '01866690075' },
     ],
@@ -53,7 +53,7 @@ const TEAMS = [
   {
     id: 'team-03', number: '03',
     title: 'Design and Fabrication of a Contemporary Ergonomic Workstation',
-    accent: '#519839', progress: 48, password: 'capstone2026',
+    accent: '#519839', progress: 48,
     members: [
       { name: 'Afra Syara Fyza',        sid: '220012105', role: 'Team Lead', mobile: '01978156746' },
       { name: 'Shah Umme Hani',         sid: '220012123', role: 'Member',    mobile: '01785640753' },
@@ -66,7 +66,7 @@ const TEAMS = [
   {
     id: 'team-04', number: '04',
     title: 'Automated Water Quality Monitoring and Purification System',
-    accent: '#B04632', progress: 55, password: 'capstone2026',
+    accent: '#B04632', progress: 55,
     members: [
       { name: 'Md. Nur Mehtab Nehal',   sid: '220012162', role: 'Team Lead', mobile: '01732609752' },
       { name: 'Abdullah Al Roman',      sid: '220012154', role: 'Member',    mobile: '01752565491' },
@@ -79,7 +79,7 @@ const TEAMS = [
   {
     id: 'team-05', number: '05',
     title: 'AI Predictive Maintenance CNC Machining for PCB Manufacturing',
-    accent: '#89609E', progress: 67, password: 'capstone2026',
+    accent: '#89609E', progress: 67,
     members: [
       { name: 'Mustaeen Billah',        sid: '220012114', role: 'Team Lead', mobile: '01341907410' },
       { name: 'Rezwanul Marwa',         sid: '220012144', role: 'Member',    mobile: '01714403025' },
@@ -253,7 +253,7 @@ async function seed() {
   for (const t of TEAMS) {
     const { error: terr } = await supabase.from('teams').upsert({
       id: t.id, number: t.number, title: t.title,
-      accent: t.accent, progress: t.progress, password: t.password,
+      accent: t.accent, progress: t.progress,
     });
     if (terr) { console.error('Team insert error:', terr); continue; }
 

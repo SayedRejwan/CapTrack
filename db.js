@@ -50,8 +50,8 @@
   const COMMENTS = {};
   const MEETINGS = {};
   let SUPERVISOR = { id: 'sup1', name: 'Dr. Md. Abu Shaid Sujon', role: 'Capstone Supervisor', email: 'shaid.sujon@iut-dhaka.edu' };
-  let DRIVE_LINK = 'https://drive.google.com/drive/folders/1a-cYelRQNGNbx0K2I0zfO3asZ72HWAmC?usp=sharing';
-  let TEAM_PASSWORD = 'capstone2026';
+  let DRIVE_LINK = ''; // Fetched from Supabase app_settings at runtime
+  let TEAM_PASSWORD = ''; // Fetched from Supabase app_settings at runtime — never hardcoded
   const RUBRIC_SCORES = {};
 
   // ── Helpers ──
@@ -104,7 +104,7 @@
     // Always write to localStorage as offline cache
     try {
       localStorage.setItem('captrack-data-v3', JSON.stringify({
-        TEAMS, TASKS, FILES, COMMENTS, MEETINGS, SUPERVISOR, DRIVE_LINK, TEAM_PASSWORD, RUBRIC_SCORES,
+        TEAMS, TASKS, FILES, COMMENTS, MEETINGS, SUPERVISOR, DRIVE_LINK, RUBRIC_SCORES,
       }));
     } catch(e) {}
     // Sync to Supabase is handled per-mutation, not bulk
@@ -260,7 +260,7 @@
       }
       if (o.SUPERVISOR) SUPERVISOR = o.SUPERVISOR;
       if (o.DRIVE_LINK) DRIVE_LINK = o.DRIVE_LINK;
-      if (o.TEAM_PASSWORD) TEAM_PASSWORD = o.TEAM_PASSWORD;
+      // TEAM_PASSWORD is never stored in localStorage — fetched from Supabase only
       if (o.RUBRIC_SCORES) Object.assign(RUBRIC_SCORES, o.RUBRIC_SCORES);
       return true;
     } catch (e) { return false; }
@@ -317,7 +317,7 @@
   window.CAPSTONE.save = async function() {
     try {
       localStorage.setItem('captrack-data-v3', JSON.stringify({
-        TEAMS, TASKS, FILES, COMMENTS, MEETINGS, SUPERVISOR, DRIVE_LINK, TEAM_PASSWORD, RUBRIC_SCORES,
+        TEAMS, TASKS, FILES, COMMENTS, MEETINGS, SUPERVISOR, DRIVE_LINK, RUBRIC_SCORES,
       }));
     } catch(e) {}
 

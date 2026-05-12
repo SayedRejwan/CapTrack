@@ -18,18 +18,22 @@ function LoginScreen({ onLogin }) {
 
   async function tryTeamLogin(e) {
     e.preventDefault();
+    const sec = window.CAPTRACK_SECURITY;
+    const rateCheck = sec.checkLoginRate('team');
+    if (!rateCheck.ok) { setErr(rateCheck.error); setShake(true); setTimeout(() => setShake(false), 400); return; }
     setErr(''); setLoading(true);
     try {
-      const { data, error } = await window.CAPSTONE.supabaseSignIn(teamEmail(teamId), password.trim().toLowerCase());
+      const { data, error } = await window.CAPSTONE.supabaseSignIn(teamEmail(teamId), password.trim());
       if (error) throw error;
-      // Verify user metadata matches the selected team
       const metaTeamId = data?.user?.user_metadata?.team_id;
       if (metaTeamId && metaTeamId !== teamId) {
         throw new Error('Team mismatch. Please contact your supervisor.');
       }
+      sec.recordLoginAttempt('team', true);
       onLogin({ kind: 'team', teamId });
     } catch (e) {
-      setErr(e.message || 'Wrong password. Ask your supervisor for the team password.');
+      sec.recordLoginAttempt('team', false);
+      setErr(e.message || 'Wrong password.');
       setShake(true);
       setTimeout(() => setShake(false), 400);
     } finally {
@@ -39,17 +43,22 @@ function LoginScreen({ onLogin }) {
 
   async function trySupLogin(e) {
     e.preventDefault();
+    const sec = window.CAPTRACK_SECURITY;
+    const rateCheck = sec.checkLoginRate('sup');
+    if (!rateCheck.ok) { setErr(rateCheck.error); setShake(true); setTimeout(() => setShake(false), 400); return; }
     setErr(''); setLoading(true);
     try {
-      const { data, error } = await window.CAPSTONE.supabaseSignIn('supervisor@captrack.local', supPassword.trim().toLowerCase());
+      const { data, error } = await window.CAPSTONE.supabaseSignIn('supervisor@captrack.local', supPassword.trim());
       if (error) throw error;
       const role = data?.user?.user_metadata?.role;
       if (role !== 'supervisor') {
         throw new Error('Not a supervisor account.');
       }
+      sec.recordLoginAttempt('sup', true);
       onLogin({ kind: 'supervisor' });
     } catch (e) {
-      setErr(e.message || 'Wrong password. Hint: supervisor');
+      sec.recordLoginAttempt('sup', false);
+      setErr(e.message || 'Wrong password.');
       setShake(true);
       setTimeout(() => setShake(false), 400);
     } finally {
@@ -217,7 +226,7 @@ function LoginScreen({ onLogin }) {
                 )}
               </button>
               <div style={{ fontSize: 11, color: '#5e6c84', textAlign: 'center', marginTop: -4 }}>
-                One shared password for all 5 teams — issued by your supervisor.
+                Contact your supervisor if you need the team password.
               </div>
             </form>
           ) : (
@@ -258,7 +267,7 @@ function LoginScreen({ onLogin }) {
                 )}
               </button>
               <div style={{ fontSize: 11, color: '#5e6c84', textAlign: 'center', marginTop: -4 }}>
-                Demo password: <code style={codeStyle}>supervisor</code>
+                Contact the department for supervisor credentials.
               </div>
             </form>
           )}
