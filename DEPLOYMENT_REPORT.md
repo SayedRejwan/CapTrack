@@ -27,9 +27,14 @@
 
 ## Workflow Status
 - **Workflow File:** `.github/workflows/deploy.yml`
-- **Latest Run:** Failed at `deploy-pages` because GitHub Pages is not yet enabled on the repository.
-- **Root Cause:** `actions/deploy-pages` requires an existing Pages site. The prior `configure-pages` step was removed due to a permission failure, but removing it left no way to create the site.
-- **Fix Applied:** Re-added `actions/configure-pages@v6` and added `actions: read` permission to the workflow token.
+- **Latest Run:** Failed — GitHub Pages is not enabled on the repository.
+- **Root Cause:** `actions/deploy-pages` requires an existing Pages site. Auto-creation via `actions/configure-pages` fails because the default `GITHUB_TOKEN` returns `403 Resource not accessible by integration` when calling the Pages create API for this repo.
+- **Attempts Made:**
+  1. Removed `configure-pages` → `deploy-pages` fails with 404 (no site exists).
+  2. Re-added `configure-pages@v6` with `enablement: true` → same 403 permission error.
+  3. Granted `contents: write` + `actions: read` → same 403 permission error.
+  4. Removed explicit permissions block → same 403 permission error.
+- **Conclusion:** The default Actions token cannot create the Pages site. Manual enablement in repo settings is required.
 
 ## Testing Results
 - **Local test results:** App loads correctly when `index.html` is opened in a browser with the Supabase CDN and credentials present.
@@ -37,8 +42,8 @@
 - **Features Tested:** Supabase connection configuration, schema definition, row insertion, DB linter fixes, CSP headers, input sanitization.
 
 ## Remaining Issues / Next Steps
-1. **Enable GitHub Pages manually** — Go to https://github.com/SayedRejwan/CapTrack/settings/pages and set the source to **GitHub Actions**. This is a one-time step required before the workflow can deploy.
-2. Once enabled, push any commit (or re-run the latest workflow) to trigger deployment.
+1. **Enable GitHub Pages manually** — Open https://github.com/SayedRejwan/CapTrack/settings/pages and set the source to **GitHub Actions**. This is a one-time step.
+2. After enabling, go to the Actions tab and re-run the latest workflow (or push any commit) to deploy.
 3. Auth users may need to be created manually in Supabase if team email logins are required.
 
 ## Final Status
@@ -46,4 +51,4 @@
 - Confirm whether database connection works: **Yes**
 - Confirm whether GitHub is updated: **Yes**
 - Confirm whether Supabase is configured: **Yes**
-- Confirm whether any manual steps remain: **Enable Pages in repo settings (see step 1 above)**
+- Confirm whether any manual steps remain: **Enable Pages in repo settings (step 1 above)**
