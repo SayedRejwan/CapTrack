@@ -34,6 +34,7 @@
   2. The prompt instructed not to commit API keys, so `index.html` was reverted to its placeholder state and the credentials were placed in a `.env` file instead. As this is a vanilla JS app, a build step (like Vite) or manual injection is needed to use the `.env` variables locally.
   3. Could not push to GitHub or deploy live as I do not have a GitHub account or deployment platform configured in this environment.
   4. Github actions failed because Github pages was not enabled by default. And node20 deprecation warning. I am unable to fix the pages enablement since it requires repo level setting. But I updated the action versions in `deploy.yml`.
+  5. Solved the blank white screen by removing `crossorigin` and SRI `integrity` hashes. Then also fixed a JS runtime error caused by null reference when Supabase data was loaded, resolving the component crash.
 
 ## Final Status
 - Confirm whether the app is live: No
